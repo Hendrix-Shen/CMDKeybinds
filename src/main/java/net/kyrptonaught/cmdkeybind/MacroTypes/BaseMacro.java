@@ -1,8 +1,12 @@
 package net.kyrptonaught.cmdkeybind.MacroTypes;
 
 import net.kyrptonaught.cmdkeybind.CmdKeybindMod;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ChatPreviewer;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 
 public abstract class BaseMacro {
@@ -64,11 +68,13 @@ public abstract class BaseMacro {
 
     protected void execute(ClientPlayerEntity player) {
         String command = this.command;
+        ChatPreviewer chatPreviewer = new ChatPreviewer(MinecraftClient.getInstance());
+        Text text = Util.map(chatPreviewer.tryConsumeResponse(command), ChatPreviewer.Response::previewText);
         if (command.startsWith("/")) {
             command = command.substring(1);
-            player.sendCommand(command);
+            player.sendCommand(command, text);
         } else {
-            player.sendChatMessage(command);
+            player.sendChatMessage(command, text);
         }
     }
 

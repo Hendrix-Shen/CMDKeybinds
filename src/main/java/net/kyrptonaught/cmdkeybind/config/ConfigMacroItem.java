@@ -10,6 +10,7 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public class ConfigMacroItem extends SubItem<ConfigOptions.ConfigMacro> {
+    @SuppressWarnings("unchecked")
     public ConfigMacroItem(ConfigSection configSection, ConfigOptions.ConfigMacro macro) {
         super(Text.literal(macro.command));
         setToolTip(Text.literal(macro.keyName));
